@@ -1,14 +1,17 @@
 package com.adrianishmael.zsyecoin
 
 import io.github.netvl.ecoji.Ecoji
-import java.io.File
 
 fun main() {
-    val encoded = Ecoji.getEncoder().readFrom("ZsyeCoin").writeToString()
-    val decoded = Ecoji.getDecoder().readFrom(encoded).writeToString()
+    val encode = Ecoji.getEncoder().readFrom("Hello Zsye").writeToString()
+    println(encode)
 
-    File("emoji.txt").writeText(encoded)
-    println("Encoded:$encoded")
-    println("Decoded: $decoded")
-    println("Hello Zsye!")
+    val hash = getSHA3Bytes(encode)
+    println(hash)
+
+    val difficulty = getHashDifficulty(hash)
+    println(difficulty)
+
+    val validate = validateHash(hash, difficulty)
+    println(validate)
 }
