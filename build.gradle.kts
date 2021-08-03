@@ -2,10 +2,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.5.21"
+
 }
 
 group = "me.aish"
-version = "1.0-SNAPSHOT"
+version = "0.1"
 
 repositories {
     mavenCentral()
@@ -13,6 +14,7 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+    implementation("io.github.netvl.ecoji:ecoji:1.0.0")
 }
 
 tasks.test {
@@ -22,3 +24,4 @@ tasks.test {
 tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "1.8"
 }
+
