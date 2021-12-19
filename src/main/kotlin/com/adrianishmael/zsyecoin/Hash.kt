@@ -23,7 +23,7 @@ fun getHashDifficulty(hash: ByteArray): Int {
 }
 
 fun validateHash(hash: ByteArray, difficulty: Int): Boolean {
-        for(i in 0..difficulty) {
+        for(i in 0 until difficulty) {
                 if(hash[i] != prefix[i % prefix.size]) return false
         }
         return true

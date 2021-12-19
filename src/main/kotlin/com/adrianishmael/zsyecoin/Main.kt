@@ -7,7 +7,7 @@ fun main() {
     println(encode)
 
     val hash = getSHA3Bytes(encode)
-    println(hash)
+    println(Ecoji.getEncoder().readFrom(hash).writeToString())
 
     val difficulty = getHashDifficulty(hash)
     println(difficulty)
