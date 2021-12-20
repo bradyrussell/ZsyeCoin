@@ -1,7 +1,7 @@
 package com.adrianishmael.zsyecoin.blockchain
 
 // an input spends an unspent transaction output that exists earlier in the blockchain
-class Input : BlockchainSerializable {
+class Input : BlockchainSerializable, BlockchainVerifiable {
     // the hash of the transaction that the output to spend exists on
     val spendingHash: ByteArray? = null
     // the index of the output to spend on the transaction
@@ -14,6 +14,10 @@ class Input : BlockchainSerializable {
     }
 
     override fun deserialize(data: ByteArray) {
+        TODO("Not yet implemented")
+    }
+
+    override fun verify(): Boolean {
         TODO("Not yet implemented")
     }
 

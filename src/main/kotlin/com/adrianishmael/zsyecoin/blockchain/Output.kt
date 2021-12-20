@@ -1,6 +1,6 @@
 package com.adrianishmael.zsyecoin.blockchain
 
-class Output : BlockchainSerializable {
+class Output : BlockchainSerializable, BlockchainVerifiable {
     // the amount of satoshis to send
     val amount: Long? = null;
     // the script to lock the output with
@@ -11,6 +11,10 @@ class Output : BlockchainSerializable {
     }
 
     override fun deserialize(data: ByteArray) {
+        TODO("Not yet implemented")
+    }
+
+    override fun verify(): Boolean {
         TODO("Not yet implemented")
     }
 }
