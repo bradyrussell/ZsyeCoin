@@ -22,6 +22,7 @@ class TestHashing {
 
     @Test
     fun estimateMiningTime() {
+        /* This test will run forever */ /*
         for (i in 0 until Hashing.hash("").size)
         {
             var startTime = Instant.now().epochSecond;
@@ -33,5 +34,7 @@ class TestHashing {
             var duration = Instant.now().epochSecond - startTime;
             println("Simulated finding a block at difficulty $i in $duration seconds. ")
         }
+
+         */
     }
 }
