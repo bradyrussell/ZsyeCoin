@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.security.SecureRandom
 import java.security.interfaces.ECPublicKey
+import java.util.concurrent.ThreadLocalRandom
 
 class TestAddresses {
     @Test
@@ -12,6 +13,17 @@ class TestAddresses {
         println(Encoding.encode(address))
         println(Addresses.verifyAddressChecksum(address))
         Assertions.assertTrue(Addresses.verifyAddressChecksum(address))
+    }
+
+    @Test
+    fun testSignatures() {
+        val keypair = Keys.makeKeyPair(SecureRandom.getSeed(32))
+        val data = ByteArray(256)
+        ThreadLocalRandom.current().nextBytes(data)
+        val signedData = Keys.signData(keypair, data)
+        val verify = Keys.verifySignedData(signedData)
+        println(verify)
+        Assertions.assertTrue(verify)
     }
 
     @Test

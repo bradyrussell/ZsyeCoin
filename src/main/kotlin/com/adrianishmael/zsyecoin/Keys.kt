@@ -9,20 +9,20 @@ import java.security.spec.*
 class Keys {
     companion object{
         @Throws(NoSuchAlgorithmException::class, InvalidAlgorithmParameterException::class)
-        fun makeKeyPair(Seed: ByteArray?): KeyPair {
+        fun makeKeyPair(seed: ByteArray): KeyPair {
             val keyGen = KeyPairGenerator.getInstance("EC")
             val ecSpec = ECGenParameterSpec(Constants.EllipticCurveName)
-            keyGen.initialize(ecSpec, SecureRandom(Seed))
+            keyGen.initialize(ecSpec, SecureRandom(seed))
             return keyGen.generateKeyPair()
         }
 
         @Throws(NoSuchAlgorithmException::class, InvalidKeyException::class, SignatureException::class)
-        fun signData(Keys: KeyPair, Message: ByteArray?): SignedData {
+        fun signData(keys: KeyPair, message: ByteArray): SignedData {
             val ecdsaSign: Signature = Signature.getInstance(Constants.SignatureName)
-            ecdsaSign.initSign(Keys.private)
-            ecdsaSign.update(Message)
+            ecdsaSign.initSign(keys.private)
+            ecdsaSign.update(message)
             val signature: ByteArray = ecdsaSign.sign()
-            return SignedData(Keys.public.encoded, signature, Message)
+            return SignedData(keys.public.encoded, signature, message)
         }
 
         @Throws(
@@ -31,13 +31,13 @@ class Keys {
             InvalidKeyException::class,
             SignatureException::class
         )
-        fun verifySignedData(Message: SignedData): Boolean {
+        fun verifySignedData(message: SignedData): Boolean {
             val ecdsaVerify: Signature = Signature.getInstance(Constants.SignatureName)
             val keyFactory = KeyFactory.getInstance("EC")
-            val publicKey = keyFactory.generatePublic(X509EncodedKeySpec(Message.Pubkey))
+            val publicKey = keyFactory.generatePublic(X509EncodedKeySpec(message.publicKey))
             ecdsaVerify.initVerify(publicKey)
-            ecdsaVerify.update(Message.Message)
-            return ecdsaVerify.verify(Message.Signature)
+            ecdsaVerify.update(message.message)
+            return ecdsaVerify.verify(message.signature)
         }
 
         @Throws(
@@ -46,19 +46,19 @@ class Keys {
             InvalidKeyException::class,
             SignatureException::class
         )
-        fun loadKeys(Public: ByteArray?, Private: ByteArray?): KeyPair {
+        fun loadKeys(public: ByteArray, private: ByteArray): KeyPair {
             val keyFactory = KeyFactory.getInstance("EC")
-            val publicKey = keyFactory.generatePublic(X509EncodedKeySpec(Public))
-            val privateKey = keyFactory.generatePrivate(PKCS8EncodedKeySpec(Private))
+            val publicKey = keyFactory.generatePublic(X509EncodedKeySpec(public))
+            val privateKey = keyFactory.generatePrivate(PKCS8EncodedKeySpec(private))
             return KeyPair(publicKey, privateKey)
         }
 
         @Throws(GeneralSecurityException::class)
-        fun getPublicKeyFromPrivateKey(PrivateKey: ECPrivateKey): ECPublicKey? {
-            return getPublicKey(PrivateKey)
+        fun getPublicKeyFromPrivateKey(privateKey: ECPrivateKey): ECPublicKey {
+            return getPublicKey(privateKey)
         }
 
-        class SignedData(val Pubkey: ByteArray, val Signature: ByteArray, val Message: ByteArray?)
+        class SignedData(val publicKey: ByteArray, val signature: ByteArray, val message: ByteArray)
 
         //https://stackoverflow.com/questions/19673962/codes-to-generate-a-public-key-in-an-elliptic-curve-algorithm-using-a-given-priv
         ///////////////////////////////////////////////////////////////
@@ -108,7 +108,7 @@ class Keys {
             var k = kin.mod(p)
             val length = k.bitLength()
             val binarray = ByteArray(length)
-            for (i in 0..length - 1) {
+            for (i in 0 until length) {
                 binarray[i] = k.mod(BigInteger.TWO).toByte()
                 k = k.shiftRight(1)
             }

@@ -1,8 +1,13 @@
 package com.adrianishmael.zsyecoin.blockchain
 
-class Block : BlockchainSerializable, BlockchainVerifiable {
-    val header: BlockHeader? = null
-    val transactions = listOf<Transaction>()
+class BlockHeader : BlockchainSerializable, BlockchainVerifiable {
+    val version = null
+    val previousBlockHash = null
+    val merkleRootHash = null
+    val timestamp = null
+    val difficulty = null
+    val height = null
+    val nonce = null
     override fun serialize(): ByteArray {
         TODO("Not yet implemented")
     }
