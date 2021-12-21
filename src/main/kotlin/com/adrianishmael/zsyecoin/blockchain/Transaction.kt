@@ -1,8 +1,6 @@
 package com.adrianishmael.zsyecoin.blockchain
 
-class Transaction : BlockchainSerializable, BlockchainVerifiable {
-    val inputs = listOf<Input>()
-    val outputs = listOf<Output>()
+class Transaction(val inputs: List<Input> = listOf(), val outputs: List<Output> = listOf()) : BlockchainSerializable, BlockchainVerifiable {
     override fun serialize(): ByteArray {
         TODO("Not yet implemented")
     }

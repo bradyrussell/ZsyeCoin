@@ -1,10 +1,8 @@
 package com.adrianishmael.zsyecoin.blockchain
 
-class Output : BlockchainSerializable, BlockchainVerifiable {
+class Output(val amount: Long, val lockingScript: ByteArray) : BlockchainSerializable, BlockchainVerifiable {
     // the amount of satoshis to send
-    val amount: Long? = null;
     // the script to lock the output with
-    val lockingScript: ByteArray? = null;
 
     override fun serialize(): ByteArray {
         TODO("Not yet implemented")
