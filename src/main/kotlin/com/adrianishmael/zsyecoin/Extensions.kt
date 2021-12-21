@@ -19,6 +19,10 @@ fun ByteArray.zsyeIntLengthDecode(): Pair<ByteArray, ByteArray> {
     return Pair(this.copyOfRange(4, 4 + len), this.takeLast(this.size - (4 + len)).toByteArray())
 }
 
+fun ByteArray.zsyeFixedLengthDecode(length: Int): Pair<ByteArray, ByteArray> {
+    return Pair(this.copyOfRange(0, length), this.takeLast(this.size - length).toByteArray())
+}
+
 fun Int.zsyeBytes(): ByteArray {
     val baos = ByteArrayOutputStream()
     val data = DataOutputStream(baos)
