@@ -45,7 +45,7 @@ class FlatFileBlockchain : Blockchain {
     override fun getTransaction(hash: ByteArray): Transaction? {
         var transaction: Transaction? = null
         try {
-            val bytes = Files.readAllBytes(Path.of(databasePath!!, BlocksDatabase, hash.toHex()))
+            val bytes = Files.readAllBytes(Path.of(databasePath!!, TransactionsDatabase, hash.toHex()))
             transaction = Transaction()
             transaction.deserialize(bytes)
         } catch (e: IOException) {

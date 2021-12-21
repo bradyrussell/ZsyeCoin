@@ -35,3 +35,16 @@ fun ByteArray.zsyeInt(): Int {
     val data = DataInputStream(bais)
     return data.readInt()
 }
+
+fun Long.zsyeBytes(): ByteArray {
+    val baos = ByteArrayOutputStream()
+    val data = DataOutputStream(baos)
+    data.writeLong(this)
+    return baos.toByteArray()
+}
+
+fun ByteArray.zsyeLong(): Long {
+    val bais = ByteArrayInputStream(this)
+    val data = DataInputStream(bais)
+    return data.readLong()
+}

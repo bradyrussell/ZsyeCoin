@@ -36,8 +36,12 @@ class TestFlatFIleBlockchain {
         val db = FlatFileBlockchain()
         Assertions.assertTrue(db.open("blockchain", true))
 
-        val transaction = Transaction(listOf(Input(ByteArray(Constants.HashSize), 0, ByteArray(1023))), listOf(Output(1337, ByteArray(1022))))
+        val transaction = Transaction(listOf(Input(ByteArray(Constants.HashSize), 123, ByteArray(1023))), listOf(Output(1337, ByteArray(1022))))
         db.putTransaction(transaction)
+
+        val t2 = db.getTransaction(transaction.hash())
+        Assertions.assertEquals(t2!!.inputs[0].spendingIndex, 123)
+        Assertions.assertEquals(t2.outputs[0].amount, 1337)
     }
 
     @Test
