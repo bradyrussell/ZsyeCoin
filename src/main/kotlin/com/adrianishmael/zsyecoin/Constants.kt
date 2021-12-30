@@ -11,6 +11,7 @@ class Constants {
         val AddressHeader = Encoding.decode("💵💵💵💵")
         val AddressVersionPublicKey = Encoding.decode("😎😎😎😎")
         const val AddressChecksumBytes = 5
+        const val NetworkProtocolVersion: Byte = 0x01
     }
 }
 
