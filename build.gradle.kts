@@ -47,9 +47,9 @@ publishing {
     }
 }
 
-signing {
+/*signing {
     sign(publishing.publications[rootProject.name])
-}
+}*/
 
 tasks.register<Copy>("copyDependencies") {
     from (configurations.runtimeClasspath)
