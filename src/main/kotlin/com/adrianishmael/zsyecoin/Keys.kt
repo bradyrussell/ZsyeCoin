@@ -1,5 +1,7 @@
 package com.adrianishmael.zsyecoin
 
+import com.adrianishmael.zsyecoin.blockchain.BlockchainSerializable
+import com.adrianishmael.zsyecoin.blockchain.BlockchainVerifiable
 import java.math.BigInteger
 import java.security.*
 import java.security.interfaces.ECPrivateKey
@@ -58,7 +60,24 @@ class Keys {
             return getPublicKey(privateKey)
         }
 
-        class SignedData(val publicKey: ByteArray, val signature: ByteArray, val message: ByteArray)
+        class SignedData(var publicKey: ByteArray, var signature: ByteArray, var message: ByteArray) : BlockchainSerializable, BlockchainVerifiable {
+            override fun serialize(): ByteArray {
+                return publicKey.zsyeIntLengthEncode() + signature.zsyeIntLengthEncode() + message.zsyeIntLengthEncode()
+            }
+
+            override fun deserialize(data: ByteArray) {
+                val (pk, data1) = data.zsyeIntLengthDecode()
+                val (sig, data2) = data1.zsyeIntLengthDecode()
+                val (msg) = data2.zsyeIntLengthDecode()
+                publicKey = pk
+                signature = sig
+                message = msg
+            }
+
+            override fun verify(): Boolean {
+                return verifySignedData(this)
+            }
+        }
 
         //https://stackoverflow.com/questions/19673962/codes-to-generate-a-public-key-in-an-elliptic-curve-algorithm-using-a-given-priv
         ///////////////////////////////////////////////////////////////
