@@ -45,11 +45,27 @@ publishing {
             url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
         }
     }
-
 }
 
 signing {
     sign(publishing.publications[rootProject.name])
+}
+
+tasks.register<Copy>("copyDependencies") {
+    from (configurations.runtimeClasspath)
+    into ("dependencies")
+}
+
+tasks.register<Copy>("copyJar") {
+    dependsOn("jar")
+    from (layout.buildDirectory.dir("libs"))
+    into ("jar")
+}
+
+tasks.register<Copy>("copyJavadoc") {
+    dependsOn("javadoc")
+    from(layout.buildDirectory.dir("docs"))
+    into("docs")
 }
 
 tasks.javadoc {
